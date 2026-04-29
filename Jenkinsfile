@@ -22,5 +22,25 @@ pipeline {
                 '''
             }
         }
+        stage('Deploy') {
+            steps {
+                echo "Deploying Docker Image with Environment Variables..."
+                sh '''
+                docker run -d \
+                  --name java-jenkins-demo \
+                  --network test-network \
+                  -p 8081:8080 \
+                  -e db.name="${DB_NAME}" \
+                  -e db.host="${DB_HOST}" \
+                  -e db.port="${DB_PORT}" \
+                  -e db.username="${DB_USERNAME}" \
+                  -e db.password="${DB_PASSWORD}" \
+                  -e redis.host="${REDIS_HOST}" \
+                  -e redis.port="${REDIS_PORT}" \
+                  -e redis.password="${REDIS_PASSWORD}" \
+                  riyadis008/experiment-stuff:java-demo-1
+                '''
+            }
+        }
     }
 }
