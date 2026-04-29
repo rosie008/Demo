@@ -2,7 +2,7 @@ pipeline {
     agent {
          docker {
                 image 'riyadis008/experiment-stuff:jenkins-agent-25-mvn'
-                args '-v maven-cache:/root/.m2'
+                args '-v maven-cache:/home/jenkins/.m2'
             }
       }
     stages {
