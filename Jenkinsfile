@@ -1,6 +1,6 @@
 pipeline {
     agent {
-         docker {
+         dockerContainer  {
                 image 'riyadis008/experiment-stuff:jenkins-agent-25-mvn'
                 args '-v maven-cache:/home/jenkins/.m2'
             }
