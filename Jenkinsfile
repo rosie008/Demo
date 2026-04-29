@@ -14,11 +14,11 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
+        stage('Push') {
             steps {
-                echo "Testing.."
+                echo "Push Docker Image.."
                 sh '''
-                echo "doing test stuff.."
+                docker build -t riyadis008/experiment-stuff:java-demo-1 .
                 '''
             }
         }
