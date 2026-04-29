@@ -38,7 +38,6 @@ pipeline {
                 '''
             }
         }
-        }
         stage('Push') {
             steps {
                 echo "Push Docker Image.."
