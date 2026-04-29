@@ -5,12 +5,29 @@ pipeline {
             }
       }
     stages {
+        stage('Debug Before Build') {
+        steps {
+            sh '''
+            echo "HOME=$HOME"
+            ls -lah $HOME/.m2 || echo "No .m2 yet"
+            '''
+            }
+        }
         stage('Build') {
             steps {
                 echo "Building Application.."
                 sh '''
                 chmod +x mvnw
-                ./mvnw clean package -DskipTests
+                ./mvnw -T 1C clean package -DskipTests
+                '''
+            }
+        }
+
+        stage('Debug After Build') {
+            steps {
+                sh '''
+                ls -lah $HOME/.m2/repository | head -20
+                du -sh $HOME/.m2 || true
                 '''
             }
         }
