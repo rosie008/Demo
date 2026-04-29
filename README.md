@@ -85,5 +85,10 @@ postgres:17-alpine3.22 and  redis:7-alpine3.21. For configuration you can see
 file docker-compose.yml and .env
 
 
+## 2. Jenkins Plugins
 
+### Docker
+    To enable cloud configuration 
 
+### Docker Pipeline
+    To enable build docker image on pipeline
