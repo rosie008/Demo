@@ -21,6 +21,18 @@ RUN apt-get update && apt-get install -y docker.io
 USER jenkins
 
 ```
+to run jenkins, can use this command :
+
+```command
+docker run -d \
+  --name jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v jenkins-data:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  riyadis008/experiment-stuff:jenkins-docker  
+```
+
 ### Jenkins Agent
 
 For Jenkins AGent, I use a modified `jenkins/agent:alpine-jdk25` because I need maven to build my application.
@@ -62,9 +74,16 @@ RUN java -version && docker --version
 To make jenkins communiate with host docker, I also add socat, for this demo, I use alpine/socat:1.8.0.3.
 
 ```command
+docker pull alpine/socat:1.8.0.3
 docker run -d --restart=always -p 127.0.0.1:2376:2375 --network jenkins -v /var/run/docker.sock:/var/run/docker.sock alpine/socat:1.8.0.3  tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
 docker inspect <container_id> | grep IPAddress
 ```
+
+### Postgres and Redis
+This one just to make sure connection on application, images used are :
+postgres:17-alpine3.22 and  redis:7-alpine3.21. For configuration you can see
+file docker-compose.yml and .env
+
 
 
 

@@ -1,0 +1,49 @@
+version : "3.9"
+
+services:
+  postgres:
+    container_name: postgres1
+    image: postgres:17-alpine3.22
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - test-network
+
+  redis:
+    container_name: redis1
+    image: redis:7-alpine3.21
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--requirepass", "123456"]
+    networks:
+      - test-network
+  pgadmin:
+    image: dpage/pgadmin4:snapshot
+    container_name: pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: riyadis008@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+    depends_on:
+      - postgres
+    networks:
+      - test-network
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+networks:
+  test-network:
+    name: test-network
+
+volumes:
+  db-data:
+  pgadmin-data:
+
+
