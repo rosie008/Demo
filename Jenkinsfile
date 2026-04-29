@@ -29,7 +29,7 @@ pipeline {
                 docker run -d \
                   --name java-jenkins-demo \
                   --network test-network \
-                  -p 8081:8080 \
+                  -p 8081:8181 \
                   -e db.name="${DB_NAME}" \
                   -e db.host="${DB_HOST}" \
                   -e db.port="${DB_PORT}" \
