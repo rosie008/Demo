@@ -1,35 +1,43 @@
 pipeline {
     agent {
-        node {
-            label 'docker-agent-java'
+         docker {
+                image 'riyadis008/experiment-stuff:jenkins-agent-25-mvn'
+                args '-v maven-cache:/root/.m2'
             }
       }
     stages {
         stage('Debug Before Build') {
-        steps {
-            sh '''
-            echo "HOME=$HOME"
-            ls -lah $HOME/.m2 || echo "No .m2 yet"
-            '''
+            steps {
+                sh '''
+                echo "HOME=$HOME"
+
+                echo "=== .m2 directory ==="
+                ls -lah $HOME/.m2 || echo "No .m2 yet"
+
+                echo "=== cache size ==="
+                du -sh $HOME/.m2 || true
+                '''
             }
         }
         stage('Build') {
             steps {
                 echo "Building Application.."
                 sh '''
-                chmod +x mvnw
-                ./mvnw -T 1C clean package -DskipTests
+                mvn -T 1C clean package -DskipTests
                 '''
             }
         }
-
         stage('Debug After Build') {
             steps {
                 sh '''
-                ls -lah $HOME/.m2/repository | head -20
+                echo "=== AFTER BUILD ==="
                 du -sh $HOME/.m2 || true
+
+                echo "=== sample repo contents ==="
+                ls -lah $HOME/.m2/repository | head -20 || true
                 '''
             }
+        }
         }
         stage('Push') {
             steps {
