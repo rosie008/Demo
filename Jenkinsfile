@@ -18,13 +18,13 @@ pipeline {
             steps {
                 echo "Testing.."
                 sh '''
-                echo "doing test stuff..""
+                echo "doing test stuff.."
                 '''
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deliver....'
+                echo 'Deploying....'
                 sh '''
                 echo "doing deploy stuff.."
                 '''
