@@ -5,7 +5,7 @@ pipeline {
                 args '-v maven-cache:/home/jenkins/.m2'
             }
       }
-
+    stages {
         stage('Build') {
             steps {
                 echo "Building Application.."
